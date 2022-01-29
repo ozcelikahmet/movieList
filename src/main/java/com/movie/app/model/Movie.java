@@ -3,7 +3,7 @@ package com.movie.app.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="movies",schema = "movieProject")
+@Table(name="movies",schema = "heroku_bf512bfaa10427f")
 public class Movie {
 
     @Id
