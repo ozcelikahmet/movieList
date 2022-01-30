@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/movie.war
+web: java -jar build/libs/movie-1.0.jar
