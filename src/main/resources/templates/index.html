@@ -28,8 +28,7 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th> <a th:href="@{'/page/' + ${currentPage} + '?sortField=year&sortDir=' + ${reverseSortDir}}">
-                Year</a></th>
+            <th> <a th:href="@{'/page/' + ${currentPage}} + '?sortField=year&sortDir=' + ${reverseSortDir} + ${keyword !=null ? '&keyword=' + keyword : ' '}">Year</a></th>
             <th>Catogery</th>
             <th>Language</th>
             <th>Actor</th>

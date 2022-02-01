@@ -54,7 +54,7 @@ public class MovieController {
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
-                                @RequestParam("keyword") String keyword,
+                                @RequestParam(required=false, name="keyword") String keyword,
                                 Model model) {
         int pageSize = 5;
 
