@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -18,20 +17,8 @@ public class MovieServiceImpl implements MovieService{
     @Autowired
     private MovieRepository movieRepository;
 
-
-//    @Override
-//    @Query("SELECT m FROM  movies m WHERE m.name LIKE %?1%"
-//            + " OR m.actor LIKE %?1%"
-//            + " OR m.catogery LIKE %?1%")
-//    public List<Movie> search(String keyword) {
-//        return null;
-//    }
-
     @Override
     public List<Movie> getAllMovies() {
-//      if(keyword!=null){
-//       return this.search(keyword);
-//   }
         return this.movieRepository.findAll();
     }
 
@@ -59,12 +46,15 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public Page<Movie> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<Movie> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection, String keyword) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.movieRepository.findAll(pageable);
+        if(keyword !=null) {
+            return this.movieRepository.findAll(pageable, keyword);
+        }
+        return movieRepository.findAll(pageable);
     }
 
 }

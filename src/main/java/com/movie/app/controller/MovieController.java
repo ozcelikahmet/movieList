@@ -3,6 +3,7 @@ import com.movie.app.model.Movie;
 import com.movie.app.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,10 @@ public class MovieController {
 
     @GetMapping("/")
     public  String viewHomePage(Model model) {
-      //  , @RequestParam("keyword") String keyword
-//        List<Movie> listMovies = movieService.getAllMovies(keyword);
-//        model.addAttribute("listMovies", listMovies);
-//        model.addAttribute("keyword", keyword);
-        return findPaginated(1, "year", "asc", model);
+        String keyword=null;
+        return findPaginated(1, "year", "asc", keyword, model);
     }
+
 
     @GetMapping("/showNewMovieForm")
     public String showNewMovieForm(Model model){
@@ -55,10 +54,11 @@ public class MovieController {
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
+                                @RequestParam("keyword") String keyword,
                                 Model model) {
         int pageSize = 5;
 
-        Page<Movie> page = movieService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        Page<Movie> page = movieService.findPaginated(pageNo, pageSize, sortField, sortDir, keyword);
         List<Movie> listMovies = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -68,6 +68,7 @@ public class MovieController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("listMovies", listMovies);
+        model.addAttribute("keyword", keyword);
         return "index";
     }
 
